@@ -1,3 +1,4 @@
+import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
@@ -5,10 +6,12 @@ from datetime import datetime
 today = datetime.now().strftime("%Y-%m-%d")
 
 def upload_gsheet(csv_file):
+    credentials_json = os.getenv('GOOGLE_SHEETS_API_CREDENTIALS')
+
     scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
          "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name('gsheet_client.json', scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_dict(credentials_json, scope)
     client = gspread.authorize(credentials)
 
     spreadsheet = client.open('Canadian CC Bonus Scraper')
