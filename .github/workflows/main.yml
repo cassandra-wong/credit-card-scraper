@@ -1,0 +1,36 @@
+name: Weekly Job
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # Run every Monday at midnight
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    env:
+      GSHEET_API_CREDENTIALS: ${{ secrets.GSHEET_API_CREDENTIALS }}
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Scraper
+      run: python scraper.py
+
+    - name: Run Formatter
+      run: python format.py
+
+    - name: Run Google Sheets Script
+      run: python gsheet.py
+      env:
+        GOOGLE_SHEETS_API_CREDENTIALS: ${{ secrets.GSHEET_API_CREDENTIALS }}
