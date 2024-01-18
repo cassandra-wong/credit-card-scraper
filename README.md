@@ -21,6 +21,16 @@ async def main():
 
 Learn more about Google Workspace [here](https://developers.google.com/workspace/guides/get-started) and Python API for Google Sheets [here](https://docs.gspread.org/en/latest/).
 
+## Automated Weekly Scraping with Local Cron Jobs
+
+This project uses a local cron job to perform weekly data scraping. The script `weekly_scrap.sh` is scheduled to run every Monday. This script automates the execution of `scraper.py`, `format.py`, and `gsheet.py` to ensure the data on the Google Sheets document is regularly updated.
+
+To set up this cron job to be executed at midnight every Monday, add the following line to your crontab:
+
+```bash
+0 0 * * 1 ./weekly_scrap.sh
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
